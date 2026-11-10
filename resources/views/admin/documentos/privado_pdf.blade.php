@@ -147,28 +147,31 @@
                 </div>
                 <div class="card-body p-4">
                     <form action="{{ route('documentos.privados.store') }}" method="POST" enctype="multipart/form-data" id="formDocumentoPrivado">
-                        @csrf
+    @csrf
 
-                        <input type="hidden" name="categoria" value="privado">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold text-secondary small">Empresa Destinataria</label>
+            <select name="empresa_id" class="form-control form-control-custom py-2 px-3 shadow-sm" required>
+                <option value="">Seleccione una empresa...</option>
+                @foreach(\App\Models\Empresa::all() as $emp)
+                    <option value="{{ $emp->id }}">{{ $emp->nombre_empresa ?? $emp->razon_social ?? 'Empresa ID: ' . $emp->id }}</option>
+                @endforeach
+            </select>
+        </div>
 
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold text-secondary small">ID de Empresa</label>
-                                <input type="text" name="empresa_id" class="form-control form-control-custom py-2 px-3 shadow-sm" placeholder="ID de la empresa..." required>
-                            </div>
+        <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold text-secondary small">Título del Expediente</label>
+            <input type="text" name="titulo" class="form-control form-control-custom py-2 px-3 shadow-sm" placeholder="Título del documento..." required>
+        </div>
+    </div>
 
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold text-secondary small">Título del Expediente</label>
-                                <input type="text" name="titulo" class="form-control form-control-custom py-2 px-3 shadow-sm" placeholder="Título del documento..." required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-secondary small">Adjunto Privado (PDF)</label>
-                            <input type="file" name="archivo" class="form-control form-control-custom py-2 px-3 shadow-sm" accept="application/pdf,.pdf" data-max-size="10485760" required>
-                            <small class="text-muted mt-1 d-block" style="font-size: 0.75rem;">Sube únicamente archivos en formato PDF.</small>
-                        </div>
-                    </form>
+    <div class="mb-3">
+        <label class="form-label fw-bold text-secondary small">Adjunto Privado (PDF)</label>
+        <input type="file" name="archivo" class="form-control form-control-custom py-2 px-3 shadow-sm" accept="application/pdf,.pdf" data-max-size="10485760" required>
+        <small class="text-muted mt-1 d-block" style="font-size: 0.75rem;">Sube únicamente archivos en formato PDF (Máx. 10 MB).</small>
+    </div>
+</form>
                 </div>
             </div>
         </div>
@@ -214,7 +217,7 @@
                         <th class="text-center" style="background-color: #040723 !important; color: #ffffff !important; padding: 15px 20px !important; font-size: 0.8rem !important; font-weight: 700 !important; letter-spacing: 1px; border: none !important;">ACCIONES</th>
                     </tr>
                 </thead>
-               
+
                 <tbody>
     @forelse($documentos as $doc)
     <tr>

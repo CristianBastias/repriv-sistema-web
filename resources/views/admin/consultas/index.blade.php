@@ -90,7 +90,7 @@
             <div class="d-flex align-items-center">
                 <i class="bi bi-bell-fill fs-4 me-3 text-warning"></i>
                 <div>
-                    <strong>¡Aviso del Sistema!</strong> Hay <strong id="contador-no-leidos">{{ $mensajesNoLeidos }}</strong> mensaje(s) o consulta(s) sin leer en la bandeja de entrada[cite: 7].
+                    <strong>¡Aviso del Sistema!</strong> Hay <strong id="contador-no-leidos">{{ $mensajesNoLeidos }}</strong> mensaje(s) o consulta(s) sin leer en la bandeja de entrada.
                 </div>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

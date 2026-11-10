@@ -22,16 +22,19 @@ class ConsultaController extends Controller
 
         // 2. Guardar la consulta en la base de datos MySQL
         Consulta::create([
-            'nombre_remitente'   => $request->nombre_remitente,
-            'contacto' => $request->contacto,
-            'mensaje'  => $request->mensaje,
-            'leido'    => false, // Deja el indicador en falso para que la bandeja de admin lo marque como nuevo/no leído
+            'nombre_remitente' => $request->nombre_remitente,
+            'contacto'         => $request->contacto,
+            'mensaje'          => $request->mensaje,
+            'leido'            => false, // Deja el indicador en falso para que la bandeja de admin lo marque como nuevo/no leído
         ]);
 
         // 3. Redireccionar de vuelta mostrando la alerta de éxito en la vista pública
         return back()->with('success', '¡Su consulta ha sido enviada con éxito! Nos pondremos en contacto a la brevedad.');
     }
 
+    /**
+     * Muestra la bandeja de entrada de consultas en el panel administrativo.
+     */
     public function index()
     {
         // Muestra los mensajes en la bandeja de administración ordenados del más reciente al más antiguo
@@ -39,6 +42,9 @@ class ConsultaController extends Controller
         return view('admin.consultas.index', compact('mensajes'));
     }
 
+    /**
+     * Muestra el detalle de una consulta específica y marca como leído.
+     */
     public function show($id)
     {
         $consulta = Consulta::findOrFail($id);
@@ -51,12 +57,18 @@ class ConsultaController extends Controller
         return view('admin.consultas.show', compact('consulta'));
     }
 
+    /**
+     * Muestra la vista para redactar la respuesta a una consulta.
+     */
     public function responder($id)
     {
         $consulta = Consulta::findOrFail($id);
         return view('admin.consultas.responder', compact('consulta'));
     }
 
+    /**
+     * Procesa y envía el correo de respuesta al ciudadano.
+     */
     public function enviarCorreo(Request $request, $id)
     {
         $request->validate([
@@ -72,14 +84,19 @@ class ConsultaController extends Controller
                     ->subject($request->asunto);
         });
 
-        return redirect()->route('mensajes.index')->with('success', 'Respuesta enviada con éxito.');
+        // CORREGIDO: Redirección apuntando al índice del admin con mensaje de éxito
+        return redirect()->route('admin.consultas.index')->with('success', 'Respuesta enviada con éxito.');
     }
 
+    /**
+     * Elimina una consulta de la base de datos.
+     */
     public function destroy($id)
     {
         $consulta = Consulta::findOrFail($id);
         $consulta->delete();
 
-        return redirect()->route('mensajes.index')->with('success', 'Consulta eliminada correctamente.');
+        // CORREGIDO: Redirección apuntando al índice del admin con mensaje de éxito
+        return redirect()->route('admin.consultas.index')->with('success', 'Consulta eliminada correctamente.');
     }
 }

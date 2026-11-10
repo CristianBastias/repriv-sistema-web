@@ -110,7 +110,7 @@
             </div>
         @endif
 
-        <form id="loginForm" action="{{ route('login.admin') }}" method="POST">
+        <form id="loginFormAdmin" action="{{ route('login.admin') }}" method="POST">
             @csrf
 
             <div class="mb-3 text-start">
@@ -118,17 +118,33 @@
                 <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control border-secondary border-opacity-25" placeholder="usuario@mail.com" required autofocus style="color: #040723;">
             </div>
 
-            <div class="mb-4 text-start">
+            <div class="mb-3 text-start">
                 <label class="form-label mb-1 fw-bold label-badge">Contraseña</label>
                 <div class="input-group">
                     <input type="password" id="password" name="password" class="form-control border-secondary border-opacity-25" placeholder="••••••••" required style="color: #040723;">
-                    <button class="btn btn-outline-secondary border-secondary border-opacity-25" type="button" id="togglePassword" title="Mostrar/Ocultar contraseña">
-                        <i class="bi bi-eye" id="toggleIcon"></i>
+                    <!-- ID corregido para que funcione el botón de ver contraseña -->
+                    <button class="btn btn-outline-secondary border-secondary border-opacity-25" type="button" id="togglePasswordAdmin" title="Mostrar/Ocultar contraseña">
+                        <i class="bi bi-eye" id="toggleIconAdmin"></i>
                     </button>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-repriv w-100 py-2 shadow-sm">Entrar al Sistema</button>
+            <!-- Enlace corregido para apuntar exclusivamente a la recuperación del Admin REPRIV -->
+            <div class="mb-4 text-end">
+                <a href="{{ route('admin.password.request') }}" class="text-decoration-none small fw-semibold" style="color: #b58d3d;">
+                    <i class="bi bi-question-circle me-1"></i>¿Olvidaste tu contraseña?
+                </a>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-repriv py-2 shadow-sm">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> INGRESAR AL SISTEMA
+                </button>
+
+                <a href="{{ route('inicio') }}" class="btn btn-outline-secondary py-2 text-dark border-secondary border-opacity-25">
+                    <i class="bi bi-arrow-left me-1"></i> Cancelar / Volver
+                </a>
+            </div>
         </form>
     </div>
 
@@ -136,20 +152,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        // Script para mostrar/ocultar contraseña
-        const togglePassword = document.getElementById('togglePassword');
+        // Script corregido para mostrar/ocultar contraseña (vinculado a togglePasswordAdmin)
+        const togglePasswordAdmin = document.getElementById('togglePasswordAdmin');
         const passwordInput = document.getElementById('password');
-        const toggleIcon = document.getElementById('toggleIcon');
+        const toggleIconAdmin = document.getElementById('toggleIconAdmin');
 
-        togglePassword.addEventListener('click', function () {
+        togglePasswordAdmin.addEventListener('click', function () {
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            toggleIcon.classList.toggle('bi-eye');
-            toggleIcon.classList.toggle('bi-eye-slash');
+            toggleIconAdmin.classList.toggle('bi-eye');
+            toggleIconAdmin.classList.toggle('bi-eye-slash');
         });
 
-        // Script de alerta de autenticación idéntico al de empresas
-        document.getElementById('loginForm').addEventListener('submit', function() {
+        // Script de alerta de autenticación vinculado al formulario de Admin
+        document.getElementById('loginFormAdmin').addEventListener('submit', function() {
             Swal.fire({
                 icon: 'success',
                 title: 'Autenticando...',

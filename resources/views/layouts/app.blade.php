@@ -257,9 +257,13 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
-                                <a class="btn btn-buscador text-nowrap {{ request()->routeIs('buscador*') ? 'active-buscador' : '' }}" href="{{ route('buscador.index') }}">BUSCADOR DE EMPRESAS</a>
-                            </li>
+                            <!-- Menú Buscador de Empresas con Desplegable al pasar el cursor -->
+<li class="nav-item dropdown-hover ms-lg-3 mt-2 mt-lg-0">
+    <a class="btn btn-buscador text-nowrap {{ request()->routeIs('buscador*') ? 'active-buscador' : '' }}" href="{{ route('buscador.index') }}">BUSCADOR DE EMPRESAS</a>
+    <ul class="dropdown-menu-sm shadow-sm">
+        <li><span class="dropdown-item-text-custom fw-bold text-dark">Padrón de Empresas</span></li>
+    </ul>
+</li>
                         </ul>
                     </div>
                 </nav>

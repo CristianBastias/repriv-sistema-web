@@ -93,11 +93,11 @@
         <div class="row g-2 justify-content-center">
             @foreach($imagenes as $img)
                 <div class="col-md-{{ count($imagenes) > 1 ? '6' : '12' }} text-center">
-                    <img src="{{ asset('storage/' . $img) }}" 
-                         class="img-fluid rounded shadow-sm" 
-                         alt="Imagen de la noticia" 
+                    <img src="{{ asset('storage/' . $img) }}"
+                         class="img-fluid rounded shadow-sm"
+                         alt="Imagen de la noticia"
                          style="height: 130px; width: 100%; object-fit: cover; border: 1.5px solid #0f2c59 !important; transition: transform 0.2s ease;"
-                         onmouseover="this.style.transform='scale(1.02)';" 
+                         onmouseover="this.style.transform='scale(1.02)';"
                          onmouseout="this.style.transform='scale(1)';">
                 </div>
             @endforeach
@@ -153,7 +153,7 @@
 </div>
 
     <h5 class="mb-4 text-dark text-center text-md-start">
-        Documentos del marco normativo, requeridos para el trámite de habilitación de empresa de seguridad privada
+        Descargas de Documentos PDF, del marco normativo requeridos para el trámite de habilitación de empresa de seguridad privada
     </h5>
 
     <div class="list-group shadow-sm mb-5">

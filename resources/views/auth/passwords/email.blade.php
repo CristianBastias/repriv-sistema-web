@@ -8,7 +8,7 @@
     <style>
         body {
             background: linear-gradient(rgba(4, 7, 35, 0.85), rgba(15, 23, 42, 0.75)),
-                        url('{{ asset('/images/fondo_repriv.png') }}');
+                        url('{{ asset('/images/loginreset.jpg') }}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;

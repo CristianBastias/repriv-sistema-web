@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Notifications\ResetPassword;
 
 #[Fillable(['name', 'email', 'password', 'empresa_id'])]
 #[Hidden(['password', 'remember_token'])]
@@ -17,7 +18,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * Relación con la empresa
+     * Relación con la empresa.
      */
     public function empresa()
     {
@@ -25,12 +26,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Helper para verificar si es administrador
-     * Ajusta la lógica según cómo identifiques a tus administradores
+     * Helper para verificar si es administrador.
      */
     public function getIsAdminAttribute(): bool
     {
-        // Ejemplo: Si el email contiene 'admin' o puedes definir un campo 'role' en tu tabla users
         return str_contains($this->email, 'admin');
     }
 
@@ -43,5 +42,30 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Envía la notificación de restablecimiento de contraseña de forma independiente
+     * diferenciando el panel Corporativo (Empresa) del panel de Administración REPRIV.
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        ResetPassword::createUrlUsing(function ($notifiable, $token) {
+            // Si la petición se origina en el flujo corporativo/empresarial
+            if (request()->is('empresa/*') || request()->routeIs('empresa.*')) {
+                return route('empresa.password.reset', [
+                    'token' => $token,
+                    'email' => $notifiable->getEmailForPasswordReset(),
+                ]);
+            }
+
+            // Si la petición se origina en el panel de administración del REPRIV
+            return route('admin.password.reset', [
+                'token' => $token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ]);
+        });
+
+        $this->notify(new ResetPassword($token));
     }
 }

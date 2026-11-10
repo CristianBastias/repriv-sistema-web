@@ -45,7 +45,7 @@
                 <i class="bi bi-chat-square-text-fill"></i>
             </div>
             <div>
-                <h3 class="fw-bold mb-0 text-white" style="letter-spacing: 0.5px;">REPRIV - Panel Admin[cite: 12]</h3>
+                <h3 class="fw-bold mb-0 text-white" style="letter-spacing: 0.5px;">REPRIV - Panel Admin</h3>
                 <p class="mb-0 text-white-50 small fw-medium">Detalle de Consulta Ciudadana</p>
             </div>
         </div>

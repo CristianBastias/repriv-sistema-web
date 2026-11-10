@@ -17,8 +17,9 @@ use App\Http\Controllers\{
     DocumentoPrivadoController,
     NoticiaController, // <-- NUEVO CONTROLADOR DE NOTICIAS
     Auth\AuthenticatedSessionController,
-    Auth\EmpresaForgotPasswordController
-};
+    Auth\EmpresaForgotPasswordController,
+    Auth\AdminForgotPasswordController
+   };
 
 // --- RUTAS PÚBLICAS ---
 Route::get('/', [PortalController::class, 'inicio'])->name('inicio');
@@ -48,6 +49,12 @@ Route::get('/empresa/olvide-password', [EmpresaForgotPasswordController::class, 
 Route::post('/empresa/olvide-password', [EmpresaForgotPasswordController::class, 'sendResetLinkEmail'])->name('empresa.password.email');
 Route::get('/empresa/reset-password/{token}', [EmpresaForgotPasswordController::class, 'showResetForm'])->name('empresa.password.reset');
 Route::post('/empresa/reset-password', [EmpresaForgotPasswordController::class, 'reset'])->name('empresa.password.update');
+
+// --- RECUPERACIÓN DE CONTRASEÑA - PANEL ADMIN REPRIV ---
+Route::get('/admin/olvide-password', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
+Route::post('/admin/olvide-password', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
+Route::get('/admin/reset-password/{token}', [AdminForgotPasswordController::class, 'showResetForm'])->name('admin.password.reset');
+Route::post('/admin/reset-password', [AdminForgotPasswordController::class, 'reset'])->name('admin.password.update');
 
 // --- ACCESOS (Logout Empresa) ---
 Route::post('/logout-empresa', [AuthController::class, 'logoutEmpresa'])->name('empresa.logout');

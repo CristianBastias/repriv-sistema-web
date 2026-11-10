@@ -6,12 +6,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Defaults
+    | Valores Predeterminados de Autenticación
     |--------------------------------------------------------------------------
     |
-    | This option defines the default authentication "guard" and password
-    | reset "broker" for your application. You may change these values
-    | as required, but they're a perfect start for most applications.
+    | Esta opción define el "guard" de autenticación predeterminado y el
+    | "broker" de restablecimiento de contraseñas para tu aplicación. Puedes
+    | cambiar estos valores según sea necesario, pero son un punto de partida
+    | ideal para la mayoría de las aplicaciones.
     |
     */
 
@@ -22,18 +23,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Guards
+    | Guards de Autenticación
     |--------------------------------------------------------------------------
     |
-    | Next, you may define every authentication guard for your application.
-    | Of course, a great default configuration has been defined for you
-    | which utilizes session storage plus the Eloquent user provider.
+    | A continuación, puedes definir cada guard de autenticación para tu aplicación.
+    | Por defecto se incluye una configuración excelente que utiliza almacenamiento
+    | en sesión junto con el proveedor de usuarios Eloquent.
     |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
+    | Todos los guards de autenticación tienen un proveedor de usuarios, el cual
+    | define cómo se recuperan realmente los usuarios desde tu base de datos u
+    | otro sistema de almacenamiento utilizado por la aplicación.
     |
-    | Supported: "session"
+    | Soportado: "session"
     |
     */
 
@@ -42,26 +43,22 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'empresa' => [ 
+        'empresa' => [
             'driver' => 'session',
-            'provider' => 'users', // Apunta a 'users' para usar la misma tabla de usuarios con role='empresa'
+            'provider' => 'users', // Apunta a 'users' para usar la misma tabla de usuarios
         ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | User Providers
+    | Proveedores de Usuarios (User Providers)
     |--------------------------------------------------------------------------
     |
-    | All authentication guards have a user provider, which defines how the
-    | users are actually retrieved out of your database or other storage
-    | system used by the application. Typically, Eloquent is utilized.
+    | Todos los guards de autenticación tienen un proveedor de usuarios, que
+    | define cómo se obtienen los usuarios desde la base de datos o almacenamiento.
+    | Típicamente se utiliza Eloquent.
     |
-    | If you have multiple user tables or models you may configure multiple
-    | providers to represent the model / table. These providers may then
-    | be assigned to any extra authentication guards you have defined.
-    |
-    | Supported: "database", "eloquent"
+    | Soportado: "database", "eloquent"
     |
     */
 
@@ -74,40 +71,46 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Resetting Passwords
+    | Restablecimiento de Contraseñas
     |--------------------------------------------------------------------------
     |
-    | These configuration options specify the behavior of Laravel's password
-    | reset functionality, including the table utilized for token storage
-    | and the user provider that is invoked to actually retrieve users.
+    | Estas opciones de configuración especifican el comportamiento de la
+    | funcionalidad de restablecimiento de contraseña de Laravel, incluyendo
+    | la tabla utilizada para el almacenamiento de tokens y el proveedor de
+    | usuarios invocado para recuperar a los usuarios.
     |
-    | The expiry time is the number of minutes that each reset token will be
-    | considered valid. This security feature keeps tokens short-lived so
-    | they have less time to be guessed. You may change this as needed.
-    |
-    | The throttle setting is the number of seconds a user must wait before
-    | generating more password reset tokens. This prevents the user from
-    | quickly generating a very large amount of password reset tokens.
+    | El tiempo de expiración indica los minutos que cada token de restablecimiento
+    | será considerado válido. El parámetro throttle define los segundos que
+    | un usuario debe esperar antes de generar nuevos tokens.
     |
     */
 
-    'passwords' => [
+   'passwords' => [
+        // Broker para el panel de Administración (usa la tabla estándar)
         'users' => [
             'provider' => 'users',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,
         ],
-    ],
 
+        // Broker para el panel Corporativo / Empresarial (usa la tabla específica de empresas)
+        'empresas' => [
+            'provider' => 'users',
+            'table' => 'empresa_password_reset_tokens', // <--- AQUÍ VA LA TABLA DEL PANEL EMPRESARIAL
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+    ],
+    
     /*
     |--------------------------------------------------------------------------
-    | Password Confirmation Timeout
+    | Tiempo de Espera para Confirmación de Contraseña
     |--------------------------------------------------------------------------
     |
-    | Here you may define the number of seconds before a password confirmation
-    | window expires and users are asked to re-enter their password via the
-    | confirmation screen. By default, the timeout lasts for three hours.
+    | Aquí puedes definir el número de segundos antes de que la ventana de
+    | confirmación de contraseña expire y se le solicite al usuario volver a
+    | ingresar su credencial. Por defecto, el tiempo de espera es de tres horas.
     |
     */
 

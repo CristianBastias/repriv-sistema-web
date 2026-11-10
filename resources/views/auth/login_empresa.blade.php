@@ -8,7 +8,7 @@
     <style>
         body {
             background: linear-gradient(rgba(4, 7, 35, 0.85), rgba(15, 23, 42, 0.75)),
-                        url('{{ asset('/images/fondo_repriv.png') }}');
+                        url('{{ asset('/images/fondo-eleg.jpg') }}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -89,16 +89,22 @@
                 </div>
             @endif
 
-            <form id="loginForm" action="{{ route('login.empresa') }}" method="POST">
+            <form id="loginFormEmpresa" action="{{ route('login.empresa') }}" method="POST">
                 @csrf
+
                 <div class="mb-3 text-start">
-                    <label class="form-label fw-bold small">Correo Electrónico</label>
-                    <input type="email" name="email" id="email" class="form-control" required autofocus>
+                    <label class="form-label mb-1 fw-bold label-badge">Correo Electrónico</label>
+                    <input type="email" id="email_empresa" name="email" value="{{ old('email') }}" class="form-control border-secondary border-opacity-25" placeholder="empresa@mail.com" required autofocus style="color: #040723;">
                 </div>
 
                 <div class="mb-3 text-start">
-                    <label class="form-label fw-bold small">Contraseña</label>
-                    <input type="password" name="password" id="password" class="form-control" required>
+                    <label class="form-label mb-1 fw-bold label-badge">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" id="password_empresa" name="password" class="form-control border-secondary border-opacity-25" placeholder="••••••••" required style="color: #040723;">
+                        <button class="btn btn-outline-secondary border-secondary border-opacity-25" type="button" id="togglePasswordEmpresa" title="Mostrar/Ocultar contraseña">
+                            <i class="bi bi-eye" id="toggleIconEmpresa"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="mb-4 text-end">
@@ -108,7 +114,7 @@
                 </div>
 
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-repriv py-2">
+                    <button type="submit" class="btn btn-repriv py-2 shadow-sm">
                         <i class="bi bi-box-arrow-in-right me-1"></i> INGRESAR AL PANEL
                     </button>
 
@@ -121,8 +127,10 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function() {
+        // Script de alerta de autenticación de usuario (Corregido al ID correcto del form)
+        document.getElementById('loginFormEmpresa').addEventListener('submit', function() {
             Swal.fire({
                 icon: 'success',
                 title: 'Autenticando...',
@@ -133,6 +141,24 @@
                 timer: 1500,
                 timerProgressBar: true
             });
+        });
+
+        // Script para mostrar/ocultar contraseña
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePasswordBtn = document.getElementById('togglePasswordEmpresa');
+            const passwordInput = document.getElementById('password_empresa');
+            const toggleIcon = document.getElementById('toggleIconEmpresa');
+
+            if (togglePasswordBtn && passwordInput && toggleIcon) {
+                togglePasswordBtn.addEventListener('click', function () {
+                    const isPassword = passwordInput.getAttribute('type') === 'password';
+                    passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+
+                    // Cambia el icono entre ojo abierto y tachado
+                    toggleIcon.classList.toggle('bi-eye', !isPassword);
+                    toggleIcon.classList.toggle('bi-eye-slash', isPassword);
+                });
+            }
         });
     </script>
 </body>
