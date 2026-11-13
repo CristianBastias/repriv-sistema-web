@@ -91,10 +91,41 @@
                 <img src="{{ asset('/images/logo-sistema-transp.png') }}" alt="Policía" style="height: 50px;" class="img-fluid">
                 <h5 class="text-info m-0 fw-bold d-none d-sm-block" style="letter-spacing: 0.5px;">Panel Administrativo - Sistema REPRIV</h5>
             </div>
-            <div class="col-6 d-flex align-items-center justify-content-end gap-2">
+            <div class="col-6 d-flex align-items-center justify-content-end gap-2 flex-wrap">
+
+                <!-- SECCIÓN DE PERFIL DE USUARIO (INTEGRADA EN EL ENCABEZADO) -->
+                @auth
+                <div class="dropdown">
+                    <button class="btn btn-sm px-3 rounded-pill fw-semibold text-white dropdown-toggle d-flex align-items-center gap-1" type="button" id="userProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="border: 2px solid #b58d3d; background: rgba(181, 141, 61, 0.1); transition: all 0.3s ease;">
+                        <i class="bi bi-person-circle text-warning"></i> {{ Auth::user()->name }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg" aria-labelledby="userProfileDropdown">
+                        <li>
+                            <a class="dropdown-item py-2 d-flex align-items-center gap-2" href="{{ route('profile.edit') }}">
+                                <i class="bi bi-gear text-info"></i> Configuración de Perfil
+                            </a>
+                        </li>
+                        
+                        <!-- AQUÍ SE AGREGA LA OPCIÓN EXCLUSIVA PARA EL JEFE ADMINISTRATIVO -->
+                        @if(Auth::user()->role === 'jefe_admin')
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li>
+                            <a class="dropdown-item py-2 d-flex align-items-center gap-2" href="{{ route('admin.usuarios.index') }}">
+                                <i class="bi bi-people text-warning"></i> Gestión de Usuarios
+                            </a>
+                        </li>
+                        @endif
+
+                    </ul>
+                </div>
+                @endauth
+
+                <!-- Botón Vista Pública -->
                 <a href="{{ route('inicio') }}" target="_blank" class="btn btn-sm px-3 rounded-pill fw-semibold text-info d-flex align-items-center gap-1 btn-vista-publica" style="border: 2px solid #00d4ff; background: rgba(0, 212, 255, 0.05); transition: all 0.3s ease;">
                     <i class="bi bi-eye"></i> Vista Pública
                 </a>
+
+                <!-- Botón Cerrar Sesión -->
                 <form action="{{ route('logout.admin') }}" method="POST" class="d-inline m-0">
                 @csrf
                     <button type="submit" class="btn btn-sm px-3 rounded-pill fw-semibold text-danger d-flex align-items-center gap-1 btn-cerrar-sesion" style="border: 2px solid #dc3545; background: rgba(220, 53, 69, 0.05); transition: all 0.3s ease;">
@@ -165,7 +196,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                     @php
                         $noLeidosMail = \App\Models\Consulta::where('leido', false)->count();
                     @endphp
@@ -178,7 +209,7 @@
                         </a>
                     </li>
 
-                    <!-- NUEVO MÓDULO: NOTICIAS -->
+                    <!-- MÓDULO: NOTICIAS -->
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.noticias.*') ? 'active text-info' : '' }} d-flex align-items-center gap-1" href="{{ route('admin.noticias.index') }}">
                             <div><i class="bi bi-newspaper me-1"></i> Noticias</div>

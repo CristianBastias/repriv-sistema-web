@@ -4,27 +4,25 @@
 <!-- Contenedor con ancho optimizado y responsivo -->
 <div class="container py-4" style="max-width: 1200px;">
 
-    <!-- Encabezado idéntico a la Ficha Técnica -->
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <!-- Encabezado Institucional -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 p-3 rounded-3 text-white shadow-sm" style="background-color: #040723; border-left: 5px solid #b58d3d; border-right: 1px solid rgba(181, 141, 61, 0.3);">
         <div>
-            <h2 class="fw-bold text-white mb-1" style="text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+            <h2 class="fw-bold mb-1" style="color: #ffffff;">
                 Editar Perfil de Usuario
             </h2>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
                     <li class="breadcrumb-item"><a href="{{ route('panel_repriv') }}" class="text-white-50 text-decoration-none">Inicio</a></li>
-                    <li class="breadcrumb-item active text-white" aria-current="page">{{ $user->name }}</li>
+                    <li class="breadcrumb-item active text-warning" aria-current="page">{{ $user->name }}</li>
                 </ol>
             </nav>
         </div>
 
         <!-- Botón de Volver compacto arriba a la derecha -->
         <div>
-            <div class="card border-0 shadow-sm bg-white bg-opacity-10 backdrop-blur p-2 rounded-4 d-inline-block">
-                <a href="{{ route('panel_repriv') }}" class="btn btn-secondary btn-sm shadow-sm d-flex align-items-center gap-1">
-                    <i class="bi bi-arrow-left"></i> Volver al Panel
-                </a>
-            </div>
+            <a href="{{ route('panel_repriv') }}" class="btn btn-sm shadow-sm d-flex align-items-center gap-1 text-white" style="background-color: #040723; border: 1px solid #b58d3d;">
+                <i class="bi bi-arrow-left"></i> Volver al Panel
+            </a>
         </div>
     </div>
 
@@ -52,9 +50,9 @@
 
         <!-- Columna Izquierda: Formulario de Edición -->
         <div class="col-lg-8">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100">
-                <div class="card-header bg-primary text-white py-3 fw-bold border-bottom">
-                    <i class="bi bi-person-gear me-2"></i> Configuración de Cuenta
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden h-100" style="border-top: 4px solid #b58d3d !important;">
+                <div class="card-header text-white py-3 fw-bold border-bottom" style="background-color: #040723;">
+                    <i class="bi bi-person-gear me-2 text-warning"></i> Configuración de Cuenta
                 </div>
 
                 <div class="card-body p-4 bg-white">
@@ -65,7 +63,7 @@
                         <!-- Nombre -->
                         <div class="mb-4">
                             <label for="name" class="form-label text-dark fw-bold text-uppercase small tracking-wide">
-                                <i class="bi bi-person me-1 text-primary"></i> Nombre Completo:
+                                <i class="bi bi-person me-1" style="color: #040723;"></i> Nombre Completo:
                             </label>
                             <input type="text" name="name" id="name" class="form-control fw-bold text-dark shadow-sm py-2" value="{{ old('name', $user->name) }}" required>
                         </div>
@@ -75,15 +73,15 @@
                         <!-- Correo Electrónico -->
                         <div class="mb-4">
                             <label for="email" class="form-label text-dark fw-bold text-uppercase small tracking-wide">
-                                <i class="bi bi-envelope me-1 text-primary"></i> Correo Electrónico:
+                                <i class="bi bi-envelope me-1" style="color: #040723;"></i> Correo Electrónico:
                             </label>
-                            <input type="email" name="email" id="email" class="form-control text-primary fw-semibold shadow-sm py-2" value="{{ old('email', $user->email) }}" required>
+                            <input type="email" name="email" id="email" class="form-control fw-semibold shadow-sm py-2" style="color: #040723;" value="{{ old('email', $user->email) }}" required>
                         </div>
 
                         <hr class="text-muted opacity-25">
 
                         <div class="mb-3">
-                            <h6 class="text-dark fw-bold text-uppercase small tracking-wide"><i class="bi bi-key me-2 text-primary"></i> Cambiar Contraseña (Opcional)</h6>
+                            <h6 class="text-dark fw-bold text-uppercase small tracking-wide"><i class="bi bi-key me-2 text-warning"></i> Cambiar Contraseña (Opcional)</h6>
                             <p class="text-muted small mb-3">Deja estos campos en blanco si no deseas modificar tu contraseña actual.</p>
                         </div>
 
@@ -103,27 +101,27 @@
             </div>
         </div>
 
-        <!-- Columna Derecha: Bloque de Botonera con efectos traslúcidos exactos -->
+        <!-- Columna Derecha: Bloque de Botonera con los colores institucionales -->
         <div class="col-lg-4">
 
             <!-- Estado o Panel de Control Rápido -->
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
-                <div class="card-header bg-dark text-white py-3 fw-bold">Panel de Acciones</div>
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4" style="border-top: 4px solid #040723 !important;">
+                <div class="card-header text-white py-3 fw-bold" style="background-color: #040723;">Panel de Acciones</div>
                 <div class="card-body text-center py-4 bg-white">
                     <p class="text-muted small mb-0">Verifique los datos antes de guardar los cambios en el sistema.</p>
                 </div>
             </div>
 
-            <!-- Botonera Lateral en Bloque Traslúcido con Estilos Personalizados -->
-            <div class="card border-0 shadow-sm bg-white bg-opacity-10 backdrop-blur p-3 rounded-4">
+            <!-- Botonera Lateral -->
+            <div class="card border-0 shadow-sm p-3 rounded-4" style="background-color: #040723; border: 1px solid rgba(181, 141, 61, 0.4);">
                 <div class="d-grid gap-3">
-                    <!-- Botón Guardar Cambios -->
-                    <button type="submit" form="editProfileForm" class="btn btn-outline-primary fw-semibold shadow-sm custom-transparent-btn">
+                    <!-- Botón Guardar Cambios (Estilo Dorado Institucional) -->
+                    <button type="submit" form="editProfileForm" class="btn fw-semibold shadow-sm custom-gold-btn">
                         <i class="bi bi-save me-1"></i> Guardar Cambios
                     </button>
 
                     <!-- Botón Cancelar -->
-                    <a href="{{ route('panel_repriv') }}" class="btn btn-outline-light fw-semibold shadow-sm custom-transparent-btn-light text-center">
+                    <a href="{{ route('panel_repriv') }}" class="btn btn-outline-light fw-semibold shadow-sm text-center">
                         <i class="bi bi-x-circle me-1"></i> Cancelar
                     </a>
                 </div>
@@ -135,31 +133,18 @@
 </div>
 
 <style>
-    /* Estilo transparente con bordes e iconos/letras en azul para Guardar Cambios */
-    .custom-transparent-btn {
-        background-color: transparent !important;
-        border: 2px solid #0d6efd !important;
-        color: #0d6efd !important;
+    /* Estilo del botón dorado institucional */
+    .custom-gold-btn {
+        background-color: #b58d3d !important;
+        border: 2px solid #b58d3d !important;
+        color: #040723 !important;
+        font-weight: bold;
         transition: all 0.3s ease-in-out;
     }
-    .custom-transparent-btn:hover {
-        background-color: #0d6efd !important;
+    .custom-gold-btn:hover {
+        background-color: #c99d43 !important;
         color: #ffffff !important;
-        box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
-        transform: translateY(-2px);
-    }
-
-    /* Estilo transparente con bordes e iconos/letras en blanco para Cancelar */
-    .custom-transparent-btn-light {
-        background-color: transparent !important;
-        border: 2px solid #ffffff !important;
-        color: #ffffff !important;
-        transition: all 0.3s ease-in-out;
-    }
-    .custom-transparent-btn-light:hover {
-        background-color: #ffffff !important;
-        color: #212529 !important;
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        box-shadow: 0 0 15px rgba(181, 141, 61, 0.6);
         transform: translateY(-2px);
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -9,6 +10,76 @@ use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {
+    /**
+     * Verifica que el usuario logueado tenga el rol jefe_admin.
+     */
+    private function verificarJefeAdmin()
+    {
+        if (Auth::user()->role !== 'jefe_admin') {
+            abort(403, 'Acceso denegado. Esta sección es exclusiva para la Jefatura Administrativa del REPRIV.');
+        }
+    }
+
+    /**
+     * Muestra el listado de usuarios administrativos y el formulario de alta.
+     */
+    public function indexUsuarios()
+    {
+        $this->verificarJefeAdmin();
+
+        $usuarios = User::where('role', '!=', 'empresa')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+        return view('profile.usuarios-admin', compact('usuarios'));
+    }
+
+    /**
+     * Registra un nuevo usuario administrativo en el sistema.
+     */
+    public function storeUsuario(Request $request)
+    {
+        $this->verificarJefeAdmin();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
+            'role' => 'required|in:jefe_admin,operador,auditor',
+        ], [
+            'email.unique' => 'Este correo electrónico ya está registrado en el sistema.',
+            'password.min' => 'La contraseña provisoria debe tener al menos 6 caracteres.',
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+            'must_change_password' => $request->has('must_change_password') ? 1 : 0,
+        ]);
+
+        return back()->with('success', 'Usuario administrativo registrado correctamente.');
+    }
+
+    /**
+     * Elimina un usuario administrativo del panel.
+     */
+    public function destroyUsuario($id)
+    {
+        $this->verificarJefeAdmin();
+
+        $usuario = User::findOrFail($id);
+
+        if ($usuario->id === Auth::id()) {
+            return back()->withErrors(['error' => 'No puedes eliminar tu propia cuenta mientras estás en sesión.']);
+        }
+
+        $usuario->delete();
+
+        return back()->with('success', 'El usuario fue eliminado del panel administrativo.');
+    }
+
     public function edit()
     {
         $user = Auth::user();

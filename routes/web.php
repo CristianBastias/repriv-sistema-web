@@ -15,7 +15,8 @@ use App\Http\Controllers\{
     BuscadorController,
     ProfileController,
     DocumentoPrivadoController,
-    NoticiaController, // <-- NUEVO CONTROLADOR DE NOTICIAS
+    NoticiaController,
+    AdminUserController, // <--- NUEVO CONTROLADOR DE GESTIÓN DE USUARIOS ADMIN
     Auth\AuthenticatedSessionController,
     Auth\EmpresaForgotPasswordController,
     Auth\AdminForgotPasswordController
@@ -99,6 +100,13 @@ Route::get('/preinscripcion/constancia/{id}', [PreinscripcionController::class, 
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    // --- GESTIÓN DE USUARIOS DEL PANEL ADMINISTRATIVO ---
+    Route::prefix('admin/usuarios')->name('admin.usuarios.')->controller(ProfileController::class)->group(function () {
+        Route::get('/', 'indexUsuarios')->name('index');
+        Route::post('/', 'storeUsuario')->name('store');
+        Route::delete('/{id}', 'destroyUsuario')->name('destroy');
+    });
+    
     // Gestión de Empresas
     Route::controller(EmpresaController::class)->prefix('admin/empresas')->name('empresas.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -147,7 +155,7 @@ Route::get('/preinscripcion/constancia/{id}', [PreinscripcionController::class, 
         Route::post('/empresa/ver/{id}/marcar-visto', [EmpresaDocumentoController::class, 'marcarVisto'])->name('empresa.marcarVisto');
     });
 
-    // --- NUEVO: GESTIÓN DE NOTICIAS Y PUBLICACIONES (ADMIN) ---
+    // GESTIÓN DE NOTICIAS Y PUBLICACIONES (ADMIN)
     Route::prefix('admin/noticias')->name('admin.noticias.')->controller(NoticiaController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
